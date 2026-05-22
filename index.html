@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель тренировок</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0e1621;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background-color: #17212b;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 { margin-bottom: 25px; font-size: 24px; color: #5288c1; }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #24303f;
+            background-color: #24303f;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2b74b3;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #3b88c3; }
+        button:disabled { background-color: #555; cursor: not-allowed; }
+        .status { margin-top: 15px; font-weight: bold; }
+        .success { color: #4caf50; }
+        .error { color: #f44336; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Отметка о тренировке</h1>
+    
+    <label for="playerSelect" style="display:block; text-align:left; margin-bottom:8px; color:#aaa;">Выбери свое имя:</label>
+    <select id="playerSelect">
+        <option value="" disabled selected>-- Выбери из списка --</option>
+        <option value="Иван Иванов">Иван Иванов</option>
+        <option value="Алексей Петров">Алексей Петров</option>
+        <option value="Сергей Сидоров">Сергей Сидоров</option>
+        <option value="Дмитрий К.">Дмитрий К.</option>
+    </select>
+
+    <button id="submitBtn" onclick="sendMark()">✅ Я потренировался!</button>
+    <div id="statusMessage" class="status"></div>
+</div>
+
+<script>
+    // СЮДА ВСТАВЬ СВОЮ ССЫЛКУ ИЗ ШАГА 1 (ВНУТРЬ КАВЫЧЕК)
+    const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyyxfPHVpINSUjxSKE2AuUKQu1C77HOqXxYjp1kDNUhLd9xCwwxU11CEHVU6sJfNthRmQ/exec";
+
+    async function sendMark() {
+        const playerSelect = document.getElementById('playerSelect');
+        const btn = document.getElementById('submitBtn');
+        const status = document.getElementById('statusMessage');
+        
+        if (!playerSelect.value) {
+            status.className = "status error";
+            status.innerText = "Пожалуйста, выбери свое имя!";
+            return;
+        }
+
+        btn.disabled = true;
+        status.className = "status";
+        status.innerText = "Отправка данных...";
+
+        try {
+            const response = await fetch(GOOGLE_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Важно для обхода политики безопасности браузера
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ playerName: playerSelect.value })
+            });
+
+            status.className = "status success";
+            status.innerText = "🎯 Успешно! Тренировка засчитана.";
+        } catch (error) {
+            status.className = "status error";
+            status.innerText = "Ошибка отправки. Попробуй еще раз.";
+            console.error(error);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
