@@ -20,13 +20,13 @@
 </head>
 <body>
 <div class="card">
-    <h1>TRAINING LOG v2.0</h1>
+    <h1>TRAINING LOG v</h1>
     <select id="player">
         <option value="" disabled selected>КТО ТРЕНИРУЕТСЯ?</option>
-        <option value="Катя">Катя</option>
-        <option value="Саша (ChattMa)">Саша (ChattMa)</option>
-        <option value="Blessed">Blessed</option>
-        <option value="Gerader">Gerader</option>
+        <option value="Катя">zhalou(Катя)</option>
+        <option value="Саша (ChattMa)">ChattMa(Саша)</option>
+        <option value="Blessed">Blessed(Егор)</option>
+        <option value="Gerader">Gerader(Коля)</option>
     </select>
     <div class="btn-group">
         <button class="btn-start" onclick="send('START')">START</button>
@@ -35,7 +35,7 @@
     <div id="status"></div>
 </div>
 <script>
-    const URL = "ВАША_ССЫЛКА_EXEC";
+    const URL = "https://script.google.com/macros/s/AKfycbyyxfPHVpINSUjxSKE2AuUKQu1C77HOqXxYjp1kDNUhLd9xCwwxU11CEHVU6sJfNthRmQ/exec";
     async function send(act) {
         const name = document.getElementById('player').value;
         if(!name) return alert("Выбери имя!");
